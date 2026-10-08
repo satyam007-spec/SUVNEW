@@ -1,0 +1,6 @@
+{
+  "name": "SUVHUB - Modern SUV Automotive Blog & Guide",
+  "description": "Discover, compare, and explore SUVs with detailed reviews, family buying guides, head-to-head comparisons, and Indian automotive trends.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
