@@ -2,11 +2,14 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SEOHead from './components/SEOHead';
 import HomePage from './pages/HomePage';
 import BlogsPage from './pages/BlogsPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import ReviewsPage from './pages/ReviewsPage';
+import SUVDetailPage from './pages/SUVDetailPage';
 import ComparisonsPage from './pages/ComparisonsPage';
+import ComparisonDetailPage from './pages/ComparisonDetailPage';
 import BuyingGuidesPage from './pages/BuyingGuidesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -37,16 +40,16 @@ function NotFoundPage() {
           <Compass className="w-8 h-8" />
         </div>
         <span className="text-4xl font-extrabold text-[#E53935] font-heading block mb-2">404</span>
-        <h2 className="text-2xl font-bold text-white mb-2 font-heading">Off the Map</h2>
+        <h2 className="text-2xl font-bold text-white mb-2 font-heading">Page Not Found</h2>
         <p className="text-sm text-[#A7ADB4] mb-6">
-          The road you are looking for does not exist. Let's get you back to the main trail.
+          The requested automotive page does not exist. Return to the SUVHUB home dashboard.
         </p>
         <Link
           to="/"
           className="inline-flex items-center gap-2 px-6 py-3 bg-[#E53935] hover:bg-[#D32F2F] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-md active:scale-95"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Return Home</span>
+          <span>Return to SUVHUB Home</span>
         </Link>
       </div>
     </div>
@@ -57,6 +60,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <SEOHead />
       <div className="min-h-screen flex flex-col bg-[#0B0D0F] text-white selection:bg-[#E53935] selection:text-white">
         <Navbar />
         <main className="flex-1">
@@ -65,7 +69,9 @@ export default function App() {
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/blogs/:slug" element={<BlogDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/reviews/:id" element={<SUVDetailPage />} />
             <Route path="/comparisons" element={<ComparisonsPage />} />
+            <Route path="/comparisons/:id" element={<ComparisonDetailPage />} />
             <Route path="/buying-guides" element={<BuyingGuidesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />

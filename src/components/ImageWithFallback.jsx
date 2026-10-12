@@ -1,22 +1,38 @@
 import { useState } from 'react';
 
+// Helper to ensure small payload size for Unsplash images
+function getOptimizedImageUrl(url, maxWidth = 750) {
+  if (!url || typeof url !== 'string') return url;
+  if (url.includes('images.unsplash.com')) {
+    // Replace high-res dimensions with lightweight responsive dimensions and compressed quality
+    const cleanUrl = url.split('?')[0];
+    return `${cleanUrl}?auto=format&fit=crop&w=${maxWidth}&q=75`;
+  }
+  return url;
+}
+
 export default function ImageWithFallback({
   src,
   alt,
   className = '',
   aspectRatio = 'aspect-[16/10]',
-  loading = 'lazy'
+  loading = 'lazy',
+  maxWidth = 750
 }) {
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const optimizedSrc = getOptimizedImageUrl(src, maxWidth);
+  const validAltText = alt && alt.trim().length > 0 ? alt : 'SUVHUB automotive photograph';
 
   return (
     <div className={`relative overflow-hidden bg-[#15181C] ${aspectRatio} ${className}`}>
       {!hasError ? (
         <img
-          src={src}
-          alt={alt}
+          src={optimizedSrc}
+          alt={validAltText}
           loading={loading}
+          decoding="async"
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           className={`w-full h-full object-cover transition-opacity duration-300 ${
@@ -39,7 +55,7 @@ export default function ImageWithFallback({
             />
           </svg>
           <span className="text-xs text-[#A7ADB4] font-medium tracking-wide uppercase">
-            {alt || 'SUVHUB Automobile View'}
+            {validAltText}
           </span>
         </div>
       )}

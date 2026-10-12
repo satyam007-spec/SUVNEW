@@ -59,25 +59,25 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                <Link to="/" className="hover:text-white transition-colors">SUVHUB Home Dashboard</Link>
               </li>
               <li>
-                <Link to="/blogs" className="hover:text-white transition-colors">All 10 Blogs</Link>
+                <Link to="/blogs" className="hover:text-white transition-colors">All 10 Original SUV Blogs</Link>
               </li>
               <li>
-                <Link to="/reviews" className="hover:text-white transition-colors">SUV Reviews</Link>
+                <Link to="/reviews" className="hover:text-white transition-colors">Detailed Indian SUV Reviews</Link>
               </li>
               <li>
-                <Link to="/comparisons" className="hover:text-white transition-colors">Head-to-Head Comparisons</Link>
+                <Link to="/comparisons" className="hover:text-white transition-colors">Head-to-Head SUV Comparisons</Link>
               </li>
               <li>
-                <Link to="/buying-guides" className="hover:text-white transition-colors">Buying Guides</Link>
+                <Link to="/buying-guides" className="hover:text-white transition-colors">Family SUV Buying Guides</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white transition-colors">About Project</Link>
+                <Link to="/about" className="hover:text-white transition-colors">About SUVHUB College Project</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+                <Link to="/contact" className="hover:text-white transition-colors">Contact the SUVHUB Team</Link>
               </li>
             </ul>
           </div>
@@ -90,27 +90,27 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link to="/blogs?category=SUV+Reviews" className="hover:text-white transition-colors">
-                  SUV Reviews
+                  SUV Reviews Articles
                 </Link>
               </li>
               <li>
                 <Link to="/blogs?category=Comparisons" className="hover:text-white transition-colors">
-                  Comparisons
+                  SUV Comparison Guides
                 </Link>
               </li>
               <li>
                 <Link to="/blogs?category=Buying+Guides" className="hover:text-white transition-colors">
-                  Buying Guides
+                  SUV Buying Playbooks
                 </Link>
               </li>
               <li>
                 <Link to="/blogs?category=SUV+Trends" className="hover:text-white transition-colors">
-                  SUV Trends
+                  Indian SUV Trends Analysis
                 </Link>
               </li>
               <li>
                 <Link to="/blogs?category=SUV+Features" className="hover:text-white transition-colors">
-                  SUV Features
+                  Essential SUV Features Breakdown
                 </Link>
               </li>
             </ul>

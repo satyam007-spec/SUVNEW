@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Send, CheckCircle2, MapPin, Clock, MessageSquare, AlertCircle } from 'lucide-react';
+import { Mail, Send, CheckCircle2, MapPin, Clock, AlertCircle } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -58,10 +58,10 @@ export default function ContactPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight mb-4">
-            Contact SUVHUB
+            Contact SUVHUB & Feedback Portal
           </h1>
           <p className="text-base sm:text-lg text-[#A7ADB4] max-w-2xl mx-auto">
-            Have questions, suggestions, or feedback on our SUV analyses? Reach out using the demo form below.
+            Have questions, suggestions, or feedback on our SUV analyses? Reach out using the demo contact form below.
           </p>
         </div>
       </section>
@@ -72,10 +72,10 @@ export default function ContactPage() {
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-[#15181C] p-6 sm:p-8 rounded-2xl border border-[#2A2F35] space-y-6">
               <h2 className="text-2xl font-bold text-white font-heading">
-                Get in Touch
+                How Can You Reach the SUVHUB Team?
               </h2>
               <p className="text-sm text-[#A7ADB4] leading-relaxed">
-                SUVHUB is an educational web platform created for academic evaluation. We welcome reader inquiries and feedback on our SUV reviews and buying tools.
+                <strong className="text-white">Answer:</strong> You can contact the editorial student team via our academic demo email address below or by submitting the contact feedback form on this page:
               </p>
 
               <div className="space-y-4 pt-4 border-t border-[#2A2F35] text-sm">
@@ -89,9 +89,9 @@ export default function ContactPage() {
                     </span>
                     <a
                       href="mailto:hello@suvhub.example"
-                      className="text-white hover:text-[#E53935] transition-colors font-mono text-sm"
+                      className="text-white hover:text-[#E53935] transition-colors font-mono text-sm underline decoration-[#2A2F35] hover:decoration-[#E53935]"
                     >
-                      hello@suvhub.example
+                      hello@suvhub.example (Demo Inquiries)
                     </a>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
                       Demo Response Time
                     </span>
                     <span className="text-white text-sm">
-                      Academic Demo (Simulated Submissions)
+                      Academic Evaluation Queue (Simulated Submissions)
                     </span>
                   </div>
                 </div>
@@ -130,10 +130,10 @@ export default function ContactPage() {
             <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35] text-xs text-[#A7ADB4] space-y-2">
               <div className="flex items-center gap-1.5 text-white font-semibold">
                 <AlertCircle className="w-4 h-4 text-[#E53935]" />
-                <span>Notice</span>
+                <span>Notice for Visitors</span>
               </div>
               <p className="leading-relaxed">
-                This contact interface operates entirely client-side without collecting personally identifiable data to an external server.
+                This contact interface operates entirely client-side without collecting personally identifiable data to an external server or third-party database.
               </p>
             </div>
           </div>
@@ -163,17 +163,18 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                  <h3 className="text-2xl font-bold text-white font-heading mb-6">
-                    Send a Message
-                  </h3>
+                  <h2 className="text-2xl font-bold text-white font-heading mb-6">
+                    Send a Message to the SUVHUB Team
+                  </h2>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Name */}
                     <div>
-                      <label className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
+                      <label htmlFor="contact-name" className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
                         Your Name <span className="text-[#E53935]">*</span>
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         value={formData.name}
                         onChange={(e) =>
@@ -189,10 +190,11 @@ export default function ContactPage() {
 
                     {/* Email */}
                     <div>
-                      <label className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
+                      <label htmlFor="contact-email" className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
                         Your Email <span className="text-[#E53935]">*</span>
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         value={formData.email}
                         onChange={(e) =>
@@ -209,10 +211,11 @@ export default function ContactPage() {
 
                   {/* Subject */}
                   <div>
-                    <label className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
+                    <label htmlFor="contact-subject" className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
                       Subject <span className="text-[#E53935]">*</span>
                     </label>
                     <input
+                      id="contact-subject"
                       type="text"
                       value={formData.subject}
                       onChange={(e) =>
@@ -228,10 +231,11 @@ export default function ContactPage() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
+                    <label htmlFor="contact-message" className="block text-xs uppercase font-bold text-[#A7ADB4] mb-2">
                       Message <span className="text-[#E53935]">*</span>
                     </label>
                     <textarea
+                      id="contact-message"
                       rows={5}
                       value={formData.message}
                       onChange={(e) =>
@@ -251,7 +255,7 @@ export default function ContactPage() {
                       type="submit"
                       className="w-full sm:w-auto px-8 py-3.5 bg-[#E53935] hover:bg-[#D32F2F] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#E53935]/25 active:scale-95"
                     >
-                      <span>Send Message</span>
+                      <span>Send Project Message</span>
                       <Send className="w-3.5 h-3.5" />
                     </button>
                   </div>

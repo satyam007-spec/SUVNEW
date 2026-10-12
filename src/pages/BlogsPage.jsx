@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { BLOGS, CATEGORIES } from '../data/blogsData';
 import ImageWithFallback from '../components/ImageWithFallback';
-import { Search, Clock, Calendar, ArrowRight, X, Sparkles, Filter } from 'lucide-react';
+import { Search, Clock, Calendar, ArrowRight, X, Sparkles, Filter, HelpCircle } from 'lucide-react';
 
 export default function BlogsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,7 +12,6 @@ export default function BlogsPage() {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
 
-  // Sync state if search params change externally (e.g., clicking footer link)
   useEffect(() => {
     const cat = searchParams.get('category');
     if (cat && CATEGORIES.includes(cat)) {
@@ -20,18 +19,14 @@ export default function BlogsPage() {
     }
   }, [searchParams]);
 
-  // Featured blog is Blog #1 or the first matching item
   const featuredBlog = BLOGS[0];
 
-  // Filtered blogs matching search and category
   const filteredBlogs = useMemo(() => {
     return BLOGS.filter((blog) => {
-      // Category match
       const categoryMatch =
         selectedCategory === 'All' ||
         blog.category.toLowerCase() === selectedCategory.toLowerCase();
 
-      // Search query match across title, category, excerpt, and sections
       if (!searchQuery.trim()) return categoryMatch;
 
       const q = searchQuery.toLowerCase().trim();
@@ -75,7 +70,7 @@ export default function BlogsPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight mb-4">
-            SUV Articles & Guides
+            SUV Articles, Reviews & Buying Guides
           </h1>
           <p className="text-base sm:text-lg text-[#A7ADB4] max-w-2xl mx-auto">
             Discover in-depth reviews, head-to-head comparisons, and practical buying guides written specifically for Indian SUV buyers.
@@ -134,16 +129,17 @@ export default function BlogsPage() {
           ))}
         </div>
 
-        {/* Featured Article Banner (Only displayed when on 'All' and no active search) */}
+        {/* Featured Article Banner */}
         {selectedCategory === 'All' && !searchQuery && (
           <div className="mb-14 bg-[#15181C] border border-[#2A2F35] rounded-2xl overflow-hidden hover:border-[#E53935]/60 transition-all shadow-xl group">
             <div className="grid grid-cols-1 lg:grid-cols-12">
               <div className="lg:col-span-7 relative">
                 <ImageWithFallback
                   src={featuredBlog.image}
-                  alt={featuredBlog.title}
+                  alt={`${featuredBlog.title} featured article visual`}
                   aspectRatio="aspect-[16/10]"
                   className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  maxWidth={800}
                 />
                 <span className="absolute top-4 left-4 bg-[#E53935] text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded">
                   Featured Guide
@@ -177,7 +173,7 @@ export default function BlogsPage() {
                     to={`/blogs/${featuredBlog.slug}`}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#E53935] hover:bg-[#D32F2F] px-5 py-2.5 rounded-lg shadow-md transition-all active:scale-95"
                   >
-                    <span>Read Article</span>
+                    <span>Read Full Family Guide</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -189,7 +185,7 @@ export default function BlogsPage() {
         {/* Section title & count */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-white font-heading">
-            {selectedCategory === 'All' ? 'All Articles' : `${selectedCategory} Articles`}
+            {selectedCategory === 'All' ? 'What SUV Articles Are Currently Available?' : `What ${selectedCategory} Articles Are Available?`}
           </h2>
           <span className="text-xs text-[#A7ADB4] bg-[#15181C] px-3 py-1 rounded-md border border-[#2A2F35]">
             Showing {filteredBlogs.length} of {BLOGS.length} blogs
@@ -207,9 +203,10 @@ export default function BlogsPage() {
                 <div className="relative overflow-hidden">
                   <ImageWithFallback
                     src={blog.image}
-                    alt={blog.title}
+                    alt={`${blog.title} article cover`}
                     aspectRatio="aspect-[16/10]"
                     className="group-hover:scale-105 transition-transform duration-500"
+                    maxWidth={600}
                   />
                   <span className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-[#E53935] text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
                     {blog.category}
@@ -240,7 +237,7 @@ export default function BlogsPage() {
                       to={`/blogs/${blog.slug}`}
                       className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#15181C] hover:bg-[#E53935] border border-[#2A2F35] hover:border-transparent px-4 py-2.5 rounded-lg transition-all w-full justify-center group/btn"
                     >
-                      <span>Read Blog</span>
+                      <span>Read {blog.title.split(':')[0]}</span>
                       <ArrowRight className="w-3.5 h-3.5 text-[#E53935] group-hover/btn:text-white group-hover/btn:translate-x-1 transition-transform" />
                     </Link>
                   </div>

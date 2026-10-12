@@ -6,9 +6,7 @@ import {
   Users,
   GraduationCap,
   CheckCircle2,
-  ArrowRight,
-  ShieldCheck,
-  BookOpen
+  ArrowRight
 } from 'lucide-react';
 
 export default function AboutPage() {
@@ -65,7 +63,7 @@ export default function AboutPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight mb-4">
-            About SUVHUB
+            About SUVHUB & Editorial Philosophy
           </h1>
           <p className="text-base sm:text-lg text-[#A7ADB4] leading-relaxed max-w-2xl mx-auto">
             SUVHUB is a modern, student-created automotive blog and research portal developed to simplify SUV buying decisions and explore the evolving world of sports utility vehicles in India.
@@ -78,14 +76,14 @@ export default function AboutPage() {
         <div className="bg-[#15181C] border-l-4 border-[#E53935] border-y border-r border-[#2A2F35] p-6 sm:p-8 rounded-xl space-y-3">
           <div className="flex items-center gap-2 text-white font-bold text-base font-heading">
             <GraduationCap className="w-5 h-5 text-[#E53935]" />
-            <span>Project Overview & Transparency</span>
+            <span>Project Overview & Transparency Statement</span>
           </div>
           <p className="text-sm text-[#A7ADB4] leading-relaxed">
-            SUVHUB is developed as a collegiate web development demonstration project. It is designed to demonstrate clean UI architecture, client-side data management, responsive design, and practical automotive communication. We do not claim to be a commercial automotive publication or authorized dealer entity.
+            <strong className="text-white">Notice:</strong> SUVHUB is developed as a collegiate web development demonstration project. It is designed to demonstrate clean UI architecture, client-side data management, responsive design, and practical automotive communication. We do not claim to be a commercial automotive publication or authorized dealer entity.
           </p>
         </div>
 
-        {/* 1. OUR MISSION */}
+        {/* 1. OUR MISSION (AEO Q&A Format) */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#1B1F24] border border-[#2A2F35] flex items-center justify-center text-[#E53935]">
@@ -96,17 +94,17 @@ export default function AboutPage() {
                 Purpose
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading">
-                Our Mission
+                What Is the Mission and Editorial Goal of SUVHUB?
               </h2>
             </div>
           </div>
 
           <p className="text-base text-[#A7ADB4] leading-relaxed bg-[#15181C] p-6 sm:p-8 rounded-xl border border-[#2A2F35]">
-            Our mission is to help Indian car buyers and automobile enthusiasts understand SUVs through straightforward, transparent, and genuinely practical content. Rather than regurgitating press releases or confusing readers with engineering jargon, SUVHUB distills complex automobile choices into tangible daily factors: rear-seat knee room, boot space practicality, suspension behavior over broken city asphalt, and realistic fuel running costs.
+            <strong className="text-white">Answer:</strong> Our mission is to help Indian car buyers and automobile enthusiasts understand SUVs through straightforward, transparent, and genuinely practical content. Rather than regurgitating press releases or confusing readers with engineering jargon, SUVHUB distills complex automobile choices into tangible daily factors: rear-seat knee room, boot space practicality, suspension behavior over broken city asphalt, and realistic fuel running costs.
           </p>
         </section>
 
-        {/* 2. WHAT WE COVER */}
+        {/* 2. WHAT WE COVER (AEO Q&A Format) */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#1B1F24] border border-[#2A2F35] flex items-center justify-center text-[#E53935]">
@@ -117,7 +115,7 @@ export default function AboutPage() {
                 Scope
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading">
-                What We Cover
+                What Specific Automotive Pillars Do We Cover?
               </h2>
             </div>
           </div>
@@ -142,7 +140,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 3. WHO WE ARE FOR */}
+        {/* 3. WHO WE ARE FOR (AEO Q&A Format) */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#1B1F24] border border-[#2A2F35] flex items-center justify-center text-[#E53935]">
@@ -153,7 +151,7 @@ export default function AboutPage() {
                 Audience
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading">
-                Who We Are For
+                Who Is the Target Audience for SUVHUB Research?
               </h2>
             </div>
           </div>
@@ -175,11 +173,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Call to Explore */}
+        {/* Call to Explore with Rich Anchor Text */}
         <div className="bg-[#1B1F24] p-8 rounded-2xl border border-[#2A2F35] text-center space-y-4">
-          <h3 className="text-2xl font-bold text-white font-heading">
-            Ready to explore our articles?
-          </h3>
+          <h2 className="text-2xl font-bold text-white font-heading">
+            Ready to explore our comprehensive SUV guides?
+          </h2>
           <p className="text-sm text-[#A7ADB4] max-w-xl mx-auto">
             Browse through all 10 curated guides, head-to-head SUV comparisons, and buying checklists.
           </p>
@@ -188,13 +186,13 @@ export default function AboutPage() {
               to="/blogs"
               className="px-6 py-3 bg-[#E53935] hover:bg-[#D32F2F] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-all shadow-md active:scale-95"
             >
-              Explore All 10 Blogs
+              <span>Explore All 10 Curated SUV Articles</span>
             </Link>
             <Link
               to="/contact"
               className="px-6 py-3 bg-[#15181C] hover:bg-[#252A32] text-white text-xs font-semibold uppercase tracking-wider rounded-lg border border-[#2A2F35] transition-all"
             >
-              Contact the Project Team
+              <span>Contact the SUVHUB Student Project Team</span>
             </Link>
           </div>
         </div>

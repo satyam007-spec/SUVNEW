@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 
 export default function BuyingGuidesPage() {
-  // Key buying guide articles matching the 5 required topics
   const guides = [
     {
       title: "Best SUVs for Indian Families: What Should You Look For?",
@@ -83,6 +82,17 @@ export default function BuyingGuidesPage() {
     }
   ];
 
+  const buyingGuideFaqs = [
+    {
+      question: "How do you avoid dealership price markups on a new SUV in India?",
+      answer: "Always demand an itemized cost sheet separating ex-showroom price, state RTO fees, FASTag, and mandatory taxes from optional add-ons like dealer handling charges, basic accessory kits, and inflated dealer insurance. Procure independent online insurance quotes to negotiate up to ₹30,000 to ₹50,000 in savings."
+    },
+    {
+      question: "Why is an unhurried Pre-Delivery Inspection (PDI) essential before RTO registration?",
+      answer: "Once a vehicle is registered with the regional transport office (RTO) in your name, you cannot reject the car. Inspecting the vehicle in broad daylight at the dealer stockyard ensures you can verify paint condition, check tire manufacturing dates, and confirm the odometer reads under 70 km before authorizing registration."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0B0D0F] pb-24">
       {/* Header Banner */}
@@ -94,7 +104,7 @@ export default function BuyingGuidesPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight mb-4">
-            SUV Buying Guides
+            SUV Buying Guides & Practical Checklists
           </h1>
           <p className="text-base sm:text-lg text-[#A7ADB4] max-w-2xl mx-auto">
             Practical advice to help first-time buyers and families choose the right SUV, avoid showroom pitfalls, and calculate true ownership costs.
@@ -103,7 +113,7 @@ export default function BuyingGuidesPage() {
       </section>
 
       {/* Guide Cards Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {guides.map((item, idx) => {
             const Icon = item.icon;
@@ -118,9 +128,10 @@ export default function BuyingGuidesPage() {
                   <div className="relative overflow-hidden">
                     <ImageWithFallback
                       src={fullBlog.image}
-                      alt={item.title}
+                      alt={`${item.title} buying advice guide visual`}
                       aspectRatio="aspect-[21/9]"
                       className="group-hover:scale-105 transition-transform duration-500"
+                      maxWidth={750}
                     />
                     <div className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-[#E53935] text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-md flex items-center gap-1.5">
                       <Icon className="w-3.5 h-3.5" />
@@ -131,9 +142,9 @@ export default function BuyingGuidesPage() {
 
                 <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white font-heading group-hover:text-[#E53935] transition-colors leading-snug">
+                    <h2 className="text-xl sm:text-2xl font-bold text-white font-heading group-hover:text-[#E53935] transition-colors leading-snug">
                       {item.title}
-                    </h3>
+                    </h2>
                     <p className="text-sm text-[#A7ADB4] mt-2.5 leading-relaxed">
                       {item.summary}
                     </p>
@@ -164,7 +175,7 @@ export default function BuyingGuidesPage() {
                       to={`/blogs/${item.slug}`}
                       className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#E53935] hover:bg-[#D32F2F] px-4 py-2.5 rounded-lg transition-all shadow-md shadow-[#E53935]/20 active:scale-95"
                     >
-                      <span>Read Complete Guide</span>
+                      <span>Read Full {item.category} Guide</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -174,48 +185,80 @@ export default function BuyingGuidesPage() {
           })}
         </div>
 
-        {/* 4-Step Quick Buying Framework */}
-        <div className="bg-[#15181C] p-8 sm:p-10 rounded-2xl border border-[#2A2F35] mt-12">
-          <div className="text-center max-w-xl mx-auto mb-8">
+        {/* 4-Step Decision Path with Question-Answer Format */}
+        <section className="bg-[#15181C] p-8 sm:p-10 rounded-2xl border border-[#2A2F35] space-y-8">
+          <div className="text-center max-w-xl mx-auto space-y-2">
             <span className="text-xs uppercase tracking-widest text-[#E53935] font-bold">
               Framework
             </span>
-            <h3 className="text-2xl font-bold text-white font-heading mt-1">
-              4-Step SUV Decision Path
-            </h3>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading">
+              What Is the Recommended 4-Step SUV Decision Path?
+            </h2>
+            <p className="text-xs sm:text-sm text-[#A7ADB4]">
+              Answer: Follow this systematic 4-step decision roadmap to avoid impulsive showroom choices:
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35]">
               <div className="text-2xl font-bold text-[#E53935] font-heading mb-2">01</div>
-              <h4 className="font-bold text-white text-sm mb-1">Define Real Occupancy</h4>
+              <h3 className="font-bold text-white text-sm mb-1">Define Real Occupancy</h3>
               <p className="text-xs text-[#A7ADB4]">
                 Don't buy a 7-seater if you only carry 3 passengers 95% of the time.
               </p>
             </div>
             <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35]">
               <div className="text-2xl font-bold text-[#E53935] font-heading mb-2">02</div>
-              <h4 className="font-bold text-white text-sm mb-1">Compute Real Mileage</h4>
+              <h3 className="font-bold text-white text-sm mb-1">Compute Real Mileage</h3>
               <p className="text-xs text-[#A7ADB4]">
                 Calculate your real monthly commute to pick between petrol, diesel, or hybrid.
               </p>
             </div>
             <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35]">
               <div className="text-2xl font-bold text-[#E53935] font-heading mb-2">03</div>
-              <h4 className="font-bold text-white text-sm mb-1">Test Real Traffic</h4>
+              <h3 className="font-bold text-white text-sm mb-1">Test Real Traffic</h3>
               <p className="text-xs text-[#A7ADB4]">
                 Test-drive during peak rush hour and attempt parking in tight basement slots.
               </p>
             </div>
             <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35]">
               <div className="text-2xl font-bold text-[#E53935] font-heading mb-2">04</div>
-              <h4 className="font-bold text-white text-sm mb-1">In-Person PDI</h4>
+              <h3 className="font-bold text-white text-sm mb-1">In-Person Daylight PDI</h3>
               <p className="text-xs text-[#A7ADB4]">
                 Always inspect the physical vehicle in broad daylight before final registration.
               </p>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* AEO FAQ Section */}
+        <section className="bg-[#1B1F24] p-8 sm:p-10 rounded-2xl border border-[#2A2F35] space-y-6">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-1.5 text-xs uppercase font-bold text-[#E53935] tracking-widest">
+              <HelpCircle className="w-4 h-4" />
+              <span>AEO Buying Questions</span>
+            </div>
+            <h2 className="text-2xl font-bold text-white font-heading">
+              Frequently Asked Questions About Buying an SUV in India
+            </h2>
+          </div>
+
+          <div className="space-y-4 pt-2">
+            {buyingGuideFaqs.map((faq, idx) => (
+              <div
+                key={idx}
+                className="bg-[#15181C] p-6 rounded-xl border border-[#2A2F35] space-y-2"
+              >
+                <h3 className="text-base font-bold text-white font-heading text-[#E53935]">
+                  {faq.question}
+                </h3>
+                <p className="text-sm text-[#A7ADB4] leading-relaxed">
+                  <strong className="text-white">Answer:</strong> {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

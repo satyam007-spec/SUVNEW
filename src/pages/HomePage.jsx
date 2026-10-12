@@ -13,13 +13,12 @@ import {
   BookOpen,
   TrendingUp,
   Layers,
-  ChevronRight
+  ChevronRight,
+  HelpCircle
 } from 'lucide-react';
 
 export default function HomePage() {
-  // Show 6 latest blogs on home page
   const latestBlogs = BLOGS.slice(0, 6);
-  // Show 6 featured SUVs
   const featuredSUVs = SUVS.slice(0, 6);
 
   const categories = [
@@ -29,7 +28,7 @@ export default function HomePage() {
       icon: ShieldCheck,
       count: 'Deep Dives',
       link: '/reviews',
-      color: 'from-blue-500/20 to-transparent'
+      anchorText: 'Explore In-Depth Indian SUV Reviews'
     },
     {
       title: 'Comparisons',
@@ -37,7 +36,7 @@ export default function HomePage() {
       icon: Scale,
       count: 'Head-to-Head',
       link: '/comparisons',
-      color: 'from-red-500/20 to-transparent'
+      anchorText: 'Compare Top Rival SUVs Side by Side'
     },
     {
       title: 'Buying Guides',
@@ -45,7 +44,7 @@ export default function HomePage() {
       icon: BookOpen,
       count: 'Practical Tips',
       link: '/buying-guides',
-      color: 'from-amber-500/20 to-transparent'
+      anchorText: 'Read Practical Family SUV Buying Guides'
     },
     {
       title: 'SUV Trends',
@@ -53,30 +52,45 @@ export default function HomePage() {
       icon: TrendingUp,
       count: 'Industry Insights',
       link: '/blogs?category=SUV+Trends',
-      color: 'from-emerald-500/20 to-transparent'
+      anchorText: 'Discover Growing Indian SUV Market Trends'
     }
   ];
 
   const whyFeatures = [
     {
-      title: 'Expert-Style Reviews',
-      description: 'Easy-to-understand SUV reviews focusing on ergonomics, real cabin space, and driving character.',
+      question: "What makes SUVHUB reviews distinct?",
+      answer: "Easy-to-understand reviews focusing on real ergonomics, third-row space, and city suspension comfort without confusing mechanical jargon.",
       icon: ShieldCheck
     },
     {
-      title: 'Easy Comparisons',
-      description: 'Simple comparisons between popular SUVs highlighting genuine differences without jargon.',
+      question: "How do our comparisons help buyers?",
+      answer: "Simple, unbiased head-to-head comparisons highlighting genuine ride, boot space, and ownership cost differences between popular models.",
       icon: Scale
     },
     {
-      title: 'Practical Buying Guides',
-      description: 'Useful information for SUV buyers covering budgets, running costs, and family requirements.',
+      question: "What value do our buying guides provide?",
+      answer: "Actionable checklists covering real on-road tax calculations, petrol vs diesel fuel economics, and pre-delivery inspection stockyard tips.",
       icon: BookOpen
     },
     {
-      title: 'Latest SUV Trends',
-      description: 'Explore changing SUV preferences, sub-segments, and road dynamics in the Indian market.',
+      question: "How do we track Indian auto trends?",
+      answer: "We analyze why SUVs dominate 50%+ of new car sales, covering ground clearance advantages and the boom in sub-4m compact crossovers.",
       icon: TrendingUp
+    }
+  ];
+
+  const homeFaqs = [
+    {
+      question: "What should Indian buyers prioritize when choosing an SUV in 2026?",
+      answer: "Buyers should prioritize unladen ground clearance (180mm+), minimum 6 airbags with ESP, realistic fuel consumption based on monthly mileage (petrol for under 1,000 km/month; diesel for over 1,500 km/month), and dealer workshop accessibility."
+    },
+    {
+      question: "How do 5-seater and 7-seater mid-size SUVs differ in practicality?",
+      answer: "Dedicated 5-seaters (like the Tata Harrier) maximize second-row knee room and everyday boot space, whereas 7-seaters (like the Mahindra XUV700) offer folding seat versatility for extended family gatherings."
+    },
+    {
+      question: "Is SUVHUB an authorized dealer or commercial showroom?",
+      answer: "No, SUVHUB is an educational, collegiate automotive information and research project built to provide unbiased, student-authored car buying resources."
     }
   ];
 
@@ -84,7 +98,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#0B0D0F]">
       {/* 1. HERO SECTION */}
       <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-[#2A2F35]">
-        {/* Ambient atmospheric gradients */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E53935]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -108,13 +121,13 @@ export default function HomePage() {
                 Explore SUV reviews, comparisons, buying guides, features and the latest automotive trends with SUVHUB.
               </p>
 
-              {/* Action Buttons */}
+              {/* Action Buttons with Descriptive Anchor Text */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
                   to="/blogs"
                   className="px-6 py-3.5 bg-[#E53935] hover:bg-[#D32F2F] text-white font-semibold text-sm uppercase tracking-wider rounded-lg shadow-lg shadow-[#E53935]/25 transition-all flex items-center gap-2 active:scale-95"
                 >
-                  <span>Explore Blogs</span>
+                  <span>Explore All 10 SUV Blogs</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -122,7 +135,7 @@ export default function HomePage() {
                   to="/reviews"
                   className="px-6 py-3.5 bg-[#1B1F24] hover:bg-[#252A32] text-white border border-[#2A2F35] hover:border-[#A7ADB4]/40 font-semibold text-sm uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 active:scale-95"
                 >
-                  <span>Explore SUVs</span>
+                  <span>Explore Featured Indian SUVs</span>
                   <ChevronRight className="w-4 h-4 text-[#A7ADB4]" />
                 </Link>
               </div>
@@ -148,26 +161,27 @@ export default function HomePage() {
             <div className="lg:col-span-5 relative">
               <div className="relative rounded-2xl overflow-hidden border border-[#2A2F35] shadow-2xl bg-[#15181C] group">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80"
-                  alt="Modern Premium SUV on scenic drive"
+                  src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=75"
+                  alt="Modern premium mid-size SUV driving on scenic mountain highway"
                   aspectRatio="aspect-[4/3]"
                   className="group-hover:scale-105 transition-transform duration-700"
+                  maxWidth={800}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D0F] via-transparent to-transparent opacity-80" />
                 
                 <div className="absolute bottom-4 left-4 right-4 bg-[#1B1F24]/90 backdrop-blur-md p-4 rounded-xl border border-[#2A2F35] flex items-center justify-between">
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-wider text-[#E53935] block">
-                      Spotlight
+                      Market Spotlight
                     </span>
                     <h3 className="text-sm font-bold text-white">Modern Indian SUV Segment</h3>
                     <p className="text-xs text-[#A7ADB4]">Comfort • Tech • Dominance</p>
                   </div>
                   <Link
                     to="/blogs/why-suvs-have-become-so-popular-in-india"
-                    className="p-2 bg-[#E53935] text-white rounded-lg hover:bg-[#D32F2F] transition-colors"
-                    aria-label="Read why SUVs became popular"
+                    className="p-2 bg-[#E53935] text-white rounded-lg hover:bg-[#D32F2F] transition-colors flex items-center gap-1 text-xs font-semibold"
                   >
+                    <span>Read Analysis</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -177,7 +191,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. FEATURED SUVS (6 Cards) */}
+      {/* 2. FEATURED SUVS (6 Cards with Question-Answer H2) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
@@ -186,10 +200,10 @@ export default function HomePage() {
               <span>Showcase</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-              Featured SUVs
+              Which 6 Featured SUVs Define the Indian Automotive Market?
             </h2>
             <p className="text-sm sm:text-base text-[#A7ADB4] mt-2">
-              Explore six of India's most popular, capable, and talked-about SUVs.
+              Answer: From family 7-seaters to rugged 4x4 ladder-frame titans, explore India's six most talked-about SUVs with dedicated reviews:
             </p>
           </div>
           <Link
@@ -210,9 +224,10 @@ export default function HomePage() {
               <div className="relative overflow-hidden">
                 <ImageWithFallback
                   src={suv.image}
-                  alt={suv.name}
+                  alt={`${suv.name} front three-quarter exterior profile`}
                   aspectRatio="aspect-[16/10]"
                   className="group-hover:scale-105 transition-transform duration-500"
+                  maxWidth={650}
                 />
                 <span className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
                   {suv.segment}
@@ -237,10 +252,10 @@ export default function HomePage() {
                     {suv.seatingCapacity}
                   </span>
                   <Link
-                    to={`/reviews?select=${suv.id}`}
+                    to={`/reviews/${suv.id}`}
                     className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white bg-[#15181C] hover:bg-[#E53935] px-3.5 py-2 rounded-md border border-[#2A2F35] hover:border-transparent transition-all"
                   >
-                    <span>View Details</span>
+                    <span>View {suv.name} Details</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -250,7 +265,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. LATEST BLOGS SECTION (6 Cards from 10) */}
+      {/* 3. LATEST BLOGS SECTION (6 Cards with Question-Answer H2) */}
       <section className="py-20 bg-[#15181C]/50 border-y border-[#2A2F35]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -260,17 +275,17 @@ export default function HomePage() {
                 <span>Editorial Insights</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-                Latest Blogs
+                What Are the Latest Expert SUV Blogs and Guides?
               </h2>
               <p className="text-sm sm:text-base text-[#A7ADB4] mt-2">
-                Handcrafted articles covering practical buying tips, head-to-head comparisons, and market trends.
+                Answer: Explore our newest in-depth guides covering family buying criteria, head-to-head match-ups, and market trends:
               </p>
             </div>
             <Link
               to="/blogs"
               className="inline-flex items-center gap-2 text-sm font-semibold text-[#E53935] hover:text-white transition-colors group"
             >
-              <span>View All 10 Blogs</span>
+              <span>Explore All 10 Full Articles</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -284,9 +299,10 @@ export default function HomePage() {
                 <div className="relative overflow-hidden">
                   <ImageWithFallback
                     src={blog.image}
-                    alt={blog.title}
+                    alt={`${blog.title} article cover image`}
                     aspectRatio="aspect-[16/10]"
                     className="group-hover:scale-105 transition-transform duration-500"
+                    maxWidth={650}
                   />
                   <span className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-[#E53935] text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
                     {blog.category}
@@ -316,7 +332,7 @@ export default function HomePage() {
                       to={`/blogs/${blog.slug}`}
                       className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#E53935] hover:bg-[#D32F2F] px-4 py-2.5 rounded-lg transition-all w-full justify-center shadow-md shadow-[#E53935]/15"
                     >
-                      <span>Read Blog</span>
+                      <span>Read {blog.title.split(':')[0]}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -327,7 +343,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. SUV CATEGORIES (4 Cards) */}
+      {/* 4. SUV CATEGORIES (4 Cards with Question-Answer H2) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#E53935] font-bold mb-2">
@@ -335,10 +351,10 @@ export default function HomePage() {
             <span>Discover</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading">
-            Explore SUV Categories
+            Which SUV Category Best Matches Your Research Goals?
           </h2>
           <p className="text-sm sm:text-base text-[#A7ADB4] mt-2">
-            Browse through tailored content pillars crafted to guide every step of your automotive journey.
+            Answer: Browse through tailored content pillars crafted to guide every step of your automotive research journey:
           </p>
         </div>
 
@@ -364,7 +380,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="pt-6 mt-4 border-t border-[#2A2F35] flex items-center justify-between text-xs font-semibold text-[#A7ADB4] group-hover:text-white transition-colors">
-                  <span>{cat.count}</span>
+                  <span>{cat.anchorText}</span>
                   <ArrowRight className="w-4 h-4 text-[#E53935] group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
@@ -373,7 +389,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. WHY SUVHUB (4 Cards) */}
+      {/* 5. WHY SUVHUB (4 Question-Answer Feature Cards) */}
       <section className="py-20 bg-[#15181C] border-t border-[#2A2F35]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -381,10 +397,10 @@ export default function HomePage() {
               Our Value
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-heading mt-2">
-              Why SUVHUB?
+              Why Should You Trust SUVHUB for Automotive Guidance?
             </h2>
             <p className="text-sm sm:text-base text-[#A7ADB4] mt-2">
-              A student-built automotive information platform created to make SUV research transparent, practical, and accessible.
+              Answer: Because our research is 100% student-authored, unbiased, and focused purely on practical family usability:
             </p>
           </div>
 
@@ -394,19 +410,19 @@ export default function HomePage() {
               return (
                 <div
                   key={idx}
-                  className="bg-[#1B1F24] border border-[#2A2F35] rounded-xl p-6 flex flex-col justify-between"
+                  className="bg-[#1B1F24] border border-[#2A2F35] rounded-xl p-6 flex flex-col justify-between space-y-3"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#0B0D0F] border border-[#2A2F35] flex items-center justify-center text-[#E53935] mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#0B0D0F] border border-[#2A2F35] flex items-center justify-center text-[#E53935]">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-white font-heading mb-2">
-                    {feat.title}
+                  <h3 className="text-base font-bold text-white font-heading">
+                    {feat.question}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#A7ADB4] leading-relaxed">
-                    {feat.description}
+                    <strong className="text-white">Answer:</strong> {feat.answer}
                   </p>
                   <div className="mt-4 pt-3 border-t border-[#2A2F35]/50 text-[11px] text-[#A7ADB4]">
-                    No bias • Academic demo
+                    No dealer commission • Academic demo
                   </div>
                 </div>
               );
@@ -415,7 +431,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. NEWSLETTER SECTION */}
+      {/* 6. AEO HOMEPAGE FAQ SECTION */}
+      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-1.5 text-xs uppercase font-bold text-[#E53935] tracking-widest">
+            <HelpCircle className="w-4 h-4" />
+            <span>AEO Quick Answers</span>
+          </div>
+          <h2 className="text-3xl font-extrabold text-white font-heading">
+            Frequently Asked Questions by Indian SUV Buyers
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {homeFaqs.map((faq, idx) => (
+            <div
+              key={idx}
+              className="bg-[#15181C] p-6 rounded-xl border border-[#2A2F35] space-y-2"
+            >
+              <h3 className="text-base sm:text-lg font-bold text-white font-heading text-[#E53935]">
+                {faq.question}
+              </h3>
+              <p className="text-sm text-[#A7ADB4] leading-relaxed">
+                <strong className="text-white">Answer:</strong> {faq.answer}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. NEWSLETTER SECTION */}
       <NewsletterSection />
     </div>
   );

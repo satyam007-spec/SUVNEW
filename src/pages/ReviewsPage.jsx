@@ -1,49 +1,35 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { SUVS } from '../data/suvsData';
 import ImageWithFallback from '../components/ImageWithFallback';
 import {
   ShieldCheck,
   Users,
   Fuel,
-  Sparkles,
-  CheckCircle2,
   ArrowRight,
-  X,
-  Compass,
-  Gauge,
+  HelpCircle,
   Layers,
   ChevronRight
 } from 'lucide-react';
 
 export default function ReviewsPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const selectedParam = searchParams.get('select');
-
-  const [selectedSUV, setSelectedSUV] = useState(
-    SUVS.find((s) => s.id === selectedParam) || null
-  );
-
-  useEffect(() => {
-    if (selectedParam) {
-      const match = SUVS.find((s) => s.id === selectedParam);
-      if (match) {
-        setSelectedSUV(match);
-      }
+  const faqs = [
+    {
+      question: "Which Indian SUV offers the best balance of technology and family space?",
+      answer: "The Mahindra XUV700 stands out with dual 10.25-inch unified screens, Level-2 ADAS driver aids, and flexible 5 or 7-seater configurations, making it a technology benchmark for tech-savvy families."
+    },
+    {
+      question: "Which SUV is best suited for pure 5-seater lounge comfort and highway poise?",
+      answer: "The Tata Harrier excels with its Land Rover-derived OMEGArc platform, providing wide muscular road presence, immense high-speed straight-line stability, and class-leading rear-seat knee room."
+    },
+    {
+      question: "What makes the Hyundai Creta India's highest-selling compact SUV?",
+      answer: "The Creta offers a compliant, cushioned suspension for broken city roads, refined petrol and diesel powertrains, a panoramic sunroof, and Hyundai's expansive nationwide service footprint."
+    },
+    {
+      question: "Why do buyers choose the Toyota Fortuner over feature-rich monocoque crossovers?",
+      answer: "The Toyota Fortuner delivers bulletproof IMV ladder-frame durability, true low-range 4x4 off-road capability, commanding road authority, and market-leading resale value retention."
     }
-  }, [selectedParam]);
-
-  const handleOpenDetail = (suv) => {
-    setSelectedSUV(suv);
-    searchParams.set('select', suv.id);
-    setSearchParams(searchParams);
-  };
-
-  const handleCloseDetail = () => {
-    setSelectedSUV(null);
-    searchParams.delete('select');
-    setSearchParams(searchParams);
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-[#0B0D0F] pb-24">
@@ -56,7 +42,7 @@ export default function ReviewsPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight mb-4">
-            SUV Reviews & Deep Dives
+            Detailed Indian SUV Reviews & Deep Dives
           </h1>
           <p className="text-base sm:text-lg text-[#A7ADB4] max-w-2xl mx-auto">
             Practical, in-depth breakdowns of India's leading SUVs. We focus on real cabin space, ergonomics, family usability, and ride behavior.
@@ -75,9 +61,10 @@ export default function ReviewsPage() {
               <div className="relative overflow-hidden">
                 <ImageWithFallback
                   src={suv.image}
-                  alt={suv.name}
+                  alt={`${suv.name} review profile photograph`}
                   aspectRatio="aspect-[16/10]"
                   className="group-hover:scale-105 transition-transform duration-500"
+                  maxWidth={650}
                 />
                 <span className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-white text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
                   {suv.segment}
@@ -89,9 +76,9 @@ export default function ReviewsPage() {
 
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold text-white font-heading group-hover:text-[#E53935] transition-colors">
+                  <h2 className="text-2xl font-bold text-white font-heading group-hover:text-[#E53935] transition-colors">
                     {suv.name}
-                  </h3>
+                  </h2>
                   <p className="text-sm text-[#A7ADB4] mt-2 line-clamp-3 leading-relaxed">
                     {suv.overview}
                   </p>
@@ -109,20 +96,21 @@ export default function ReviewsPage() {
                 </div>
 
                 <div className="pt-4 border-t border-[#2A2F35] flex items-center gap-2">
-                  <button
-                    onClick={() => handleOpenDetail(suv)}
+                  <Link
+                    to={`/reviews/${suv.id}`}
                     className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-white bg-[#E53935] hover:bg-[#D32F2F] px-4 py-2.5 rounded-lg transition-all shadow-md shadow-[#E53935]/20 active:scale-95"
                   >
-                    <span>Read Full Review</span>
+                    <span>Read Full {suv.name} Review</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </Link>
                   {suv.relatedBlogSlug && (
                     <Link
                       to={`/blogs/${suv.relatedBlogSlug}`}
-                      className="p-2.5 bg-[#15181C] hover:bg-[#252A32] text-[#A7ADB4] hover:text-white rounded-lg border border-[#2A2F35] transition-colors"
-                      title="Read related article"
+                      className="p-2.5 bg-[#15181C] hover:bg-[#252A32] text-[#A7ADB4] hover:text-white rounded-lg border border-[#2A2F35] transition-colors flex items-center gap-1 text-xs"
+                      aria-label={`Read ${suv.name} editorial comparison article`}
                     >
                       <Layers className="w-4 h-4" />
+                      <span className="sr-only">Related Article</span>
                     </Link>
                   )}
                 </div>
@@ -130,182 +118,36 @@ export default function ReviewsPage() {
             </div>
           ))}
         </div>
-      </div>
 
-      {/* DETAILED SUV REVIEW MODAL / DRAWER */}
-      {selectedSUV && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-[#15181C] border border-[#2A2F35] rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            {/* Modal Header */}
-            <div className="sticky top-0 z-20 bg-[#15181C]/95 backdrop-blur-md px-6 py-4 border-b border-[#2A2F35] flex items-center justify-between">
-              <div>
-                <span className="text-xs uppercase tracking-wider text-[#E53935] font-bold">
-                  {selectedSUV.segment}
-                </span>
-                <h2 className="text-2xl font-bold text-white font-heading">
-                  {selectedSUV.name} — Detailed Review
-                </h2>
-              </div>
-              <button
-                onClick={handleCloseDetail}
-                className="p-2 rounded-lg bg-[#1B1F24] border border-[#2A2F35] text-[#A7ADB4] hover:text-white transition-colors"
-                aria-label="Close review"
-              >
-                <X className="w-5 h-5" />
-              </button>
+        {/* AEO Question-Answer FAQ Section */}
+        <section className="mt-20 pt-12 border-t border-[#2A2F35] max-w-4xl mx-auto space-y-6">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-1.5 text-xs uppercase font-bold text-[#E53935] tracking-widest">
+              <HelpCircle className="w-4 h-4" />
+              <span>AEO Buyer Questions</span>
             </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading">
+              Frequently Asked Questions About Indian SUV Reviews
+            </h2>
+          </div>
 
-            {/* Modal Body */}
-            <div className="p-6 sm:p-8 space-y-8">
-              {/* Hero Banner */}
-              <div className="rounded-xl overflow-hidden border border-[#2A2F35]">
-                <ImageWithFallback
-                  src={selectedSUV.image}
-                  alt={selectedSUV.name}
-                  aspectRatio="aspect-[21/9]"
-                />
-              </div>
-
-              {/* Quick Specs Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-[#1B1F24] p-4 rounded-xl border border-[#2A2F35] text-xs">
-                <div>
-                  <span className="text-[#A7ADB4] block mb-1">Seating</span>
-                  <strong className="text-white font-semibold">{selectedSUV.seatingCapacity}</strong>
-                </div>
-                <div>
-                  <span className="text-[#A7ADB4] block mb-1">Drivetrain</span>
-                  <strong className="text-white font-semibold">{selectedSUV.transmissionOptions}</strong>
-                </div>
-                <div>
-                  <span className="text-[#A7ADB4] block mb-1">Fuel Options</span>
-                  <strong className="text-white font-semibold">{selectedSUV.fuelOptions}</strong>
-                </div>
-                <div>
-                  <span className="text-[#A7ADB4] block mb-1">Character</span>
-                  <strong className="text-[#E53935] font-semibold">{selectedSUV.badge}</strong>
-                </div>
-              </div>
-
-              {/* Overview */}
-              <div>
-                <h3 className="text-lg font-bold text-white font-heading mb-2 flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-[#E53935]" />
-                  <span>Overview & Market Positioning</span>
+          <div className="space-y-4 pt-4">
+            {faqs.map((faq, idx) => (
+              <div
+                key={idx}
+                className="bg-[#15181C] p-6 rounded-xl border border-[#2A2F35] space-y-2"
+              >
+                <h3 className="text-base sm:text-lg font-bold text-white font-heading text-[#E53935]">
+                  {faq.question}
                 </h3>
                 <p className="text-sm text-[#A7ADB4] leading-relaxed">
-                  {selectedSUV.overview}
+                  <strong className="text-white">Answer:</strong> {faq.answer}
                 </p>
               </div>
-
-              {/* Design Highlights */}
-              <div>
-                <h3 className="text-lg font-bold text-white font-heading mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#E53935]" />
-                  <span>Exterior & Design Language</span>
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {selectedSUV.designHighlights.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-[#1B1F24] border border-[#2A2F35] p-3.5 rounded-lg flex items-start gap-2.5 text-xs text-[#A7ADB4]"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-[#E53935] shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Comfort & Cabin */}
-              <div>
-                <h3 className="text-lg font-bold text-white font-heading mb-3 flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#E53935]" />
-                  <span>Cabin Comfort & Technology</span>
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {selectedSUV.comfortFeatures.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-[#1B1F24] border border-[#2A2F35] p-3.5 rounded-lg flex items-start gap-2.5 text-xs text-[#A7ADB4]"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Practicality & Storage */}
-              <div>
-                <h3 className="text-lg font-bold text-white font-heading mb-3 flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-[#E53935]" />
-                  <span>Practicality & Everyday Utility</span>
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {selectedSUV.practicality.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-[#1B1F24] border border-[#2A2F35] p-3.5 rounded-lg flex items-start gap-2.5 text-xs text-[#A7ADB4]"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E53935] mt-1.5 shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Driving Dynamics */}
-              <div className="bg-[#1B1F24] p-5 rounded-xl border border-[#2A2F35]">
-                <h3 className="text-base font-bold text-white font-heading mb-2 flex items-center gap-2">
-                  <Gauge className="w-4 h-4 text-[#E53935]" />
-                  <span>Driving Behavior & Suspension Character</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-[#A7ADB4] leading-relaxed">
-                  {selectedSUV.drivingCharacter}
-                </p>
-              </div>
-
-              {/* Best Suited For */}
-              <div className="bg-gradient-to-r from-[#1B1F24] to-[#15181C] p-5 rounded-xl border-l-4 border-[#E53935] border-y border-r border-[#2A2F35]">
-                <h4 className="text-xs uppercase tracking-wider text-[#E53935] font-bold mb-1">
-                  Ideal Buyer Profile
-                </h4>
-                <p className="text-sm text-white font-medium">
-                  {selectedSUV.bestSuitedFor}
-                </p>
-              </div>
-
-              {/* Actions */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#2A2F35]">
-                <Link
-                  to="/comparisons"
-                  className="text-xs text-[#A7ADB4] hover:text-white flex items-center gap-1.5 transition-colors"
-                >
-                  <span>Compare with rivals</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-[#E53935]" />
-                </Link>
-
-                <div className="flex items-center gap-3">
-                  {selectedSUV.relatedBlogSlug && (
-                    <Link
-                      to={`/blogs/${selectedSUV.relatedBlogSlug}`}
-                      className="px-4 py-2 bg-[#1B1F24] hover:bg-[#252A32] text-white text-xs font-semibold uppercase tracking-wider rounded-lg border border-[#2A2F35] transition-all"
-                    >
-                      Read Related Blog
-                    </Link>
-                  )}
-                  <button
-                    onClick={handleCloseDetail}
-                    className="px-5 py-2 bg-[#E53935] hover:bg-[#D32F2F] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-all"
-                  >
-                    Close Review
-                  </button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-      )}
+        </section>
+      </div>
     </div>
   );
 }

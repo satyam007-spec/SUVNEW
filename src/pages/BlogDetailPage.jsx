@@ -71,7 +71,7 @@ export default function BlogDetailPage() {
             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#A7ADB4] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4 text-[#E53935]" />
-            <span>Back to Blogs</span>
+            <span>Back to All 10 SUV Blogs</span>
           </button>
 
           <div className="flex items-center gap-3">
@@ -133,8 +133,9 @@ export default function BlogDetailPage() {
         <div className="rounded-2xl overflow-hidden border border-[#2A2F35] shadow-2xl bg-[#15181C]">
           <ImageWithFallback
             src={blog.image}
-            alt={blog.title}
+            alt={`${blog.title} comprehensive guide visual`}
             aspectRatio="aspect-[16/9]"
+            maxWidth={850}
           />
         </div>
       </div>
@@ -227,7 +228,7 @@ export default function BlogDetailPage() {
             to="/blogs"
             className="text-xs font-semibold text-[#A7ADB4] hover:text-white uppercase tracking-wider flex items-center gap-1"
           >
-            <span>All Articles</span>
+            <span>Browse All 10 Articles</span>
             <ArrowRight className="w-3.5 h-3.5 text-[#E53935]" />
           </Link>
         </div>
@@ -241,9 +242,10 @@ export default function BlogDetailPage() {
               <div className="relative overflow-hidden">
                 <ImageWithFallback
                   src={rel.image}
-                  alt={rel.title}
+                  alt={`${rel.title} related article image`}
                   aspectRatio="aspect-[16/10]"
                   className="group-hover:scale-105 transition-transform duration-500"
+                  maxWidth={550}
                 />
                 <span className="absolute top-3 left-3 bg-[#0B0D0F]/85 backdrop-blur-sm border border-[#2A2F35] text-[#E53935] text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded">
                   {rel.category}
@@ -269,7 +271,7 @@ export default function BlogDetailPage() {
                     to={`/blogs/${rel.slug}`}
                     className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white hover:text-[#E53935] transition-colors"
                   >
-                    <span>Read Article</span>
+                    <span>Read Full {rel.title.split(':')[0]}</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
