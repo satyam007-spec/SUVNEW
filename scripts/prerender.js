@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { render } from '../src/entry-server.jsx';
 import { SEO_DATA } from '../src/data/seoData.js';
 import { BLOGS } from '../src/data/blogsData.js';
+import { formatHtml } from '../src/utils/formatHtml.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,17 +16,27 @@ const BASE_URL =
   (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null) ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
   process.env.APP_URL ||
-  'https://suvhub.vercel.app';
+  'https://suvnew-f8aa.vercel.app';
 
 async function prerender() {
   console.log('🚀 Starting SUVHUB Static Pre-rendering...');
 
   const templatePath = path.resolve(distDir, 'index.html');
-  if (!fs.existsSync(templatePath)) {
+  const cleanTemplatePath = path.resolve(distDir, '_template.html');
+
+  if (!fs.existsSync(templatePath) && !fs.existsSync(cleanTemplatePath)) {
     throw new Error(`dist/index.html not found at ${templatePath}. Run vite build first.`);
   }
 
-  const rawTemplate = fs.readFileSync(templatePath, 'utf-8');
+  // Preserve pristine Vite template before any page overwrites dist/index.html
+  if (fs.existsSync(templatePath)) {
+    const initialContent = fs.readFileSync(templatePath, 'utf-8');
+    if (initialContent.includes('<div id="root"></div>') || !fs.existsSync(cleanTemplatePath)) {
+      fs.writeFileSync(cleanTemplatePath, initialContent, 'utf-8');
+    }
+  }
+
+  const rawTemplate = fs.readFileSync(cleanTemplatePath, 'utf-8');
 
   // All routes to statically pre-render
   const routes = Object.keys(SEO_DATA);
@@ -34,7 +45,7 @@ async function prerender() {
   let successCount = 0;
 
   for (const url of routes) {
-    const seo = SEO_DATA[url] || {
+    const seo = (SEO_DATA)[url] || {
       title: 'SUVHUB | SUV Reviews, Comparisons & Guides India',
       description: 'Explore in-depth SUV reviews, head-to-head comparisons, and practical family buying guides tailored for Indian road conditions.',
       mainKeyword: 'SUV reviews India',
@@ -44,8 +55,9 @@ async function prerender() {
     const canonicalUrl = `${BASE_URL}${url === '/' ? '/' : url}`;
     const isBlog = url.startsWith('/blogs/') && url !== '/blogs';
     const blog = isBlog ? BLOGS.find((b) => `/blogs/${b.slug}` === url) : null;
-    const rawImage = blog ? blog.image : '/images/mahindra-xuv700.webp';
-    const ogImage = rawImage.startsWith('http') ? rawImage : `${BASE_URL}${rawImage}`;
+    const ogImage = blog
+      ? blog.image
+      : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80';
 
     // 1. Render React tree to HTML
     const appHtml = render(url);
@@ -65,7 +77,7 @@ async function prerender() {
           name: 'SUVHUB',
           logo: {
             '@type': 'ImageObject',
-            url: `${BASE_URL}/images/mahindra-xuv700.webp`
+            url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=75'
           }
         },
         potentialAction: {
@@ -85,7 +97,7 @@ async function prerender() {
         },
         headline: blog.title,
         description: blog.excerpt,
-        image: [ogImage],
+        image: [blog.image],
         datePublished: '2026-10-15T00:00:00+05:30',
         dateModified: '2026-10-15T00:00:00+05:30',
         author: {
@@ -98,7 +110,7 @@ async function prerender() {
           name: 'SUVHUB',
           logo: {
             '@type': 'ImageObject',
-            url: `${BASE_URL}/images/mahindra-xuv700.webp`
+            url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=75'
           }
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`
@@ -202,29 +214,39 @@ async function prerender() {
     // Inject SEO tags right before </head>
     pageHtml = pageHtml.replace('</head>', `${seoTags}\n  </head>`);
 
-    // Inject rendered React app into <div id="root"></div>
-    pageHtml = pageHtml.replace(
-      '<div id="root"></div>',
-      `<div id="root">${appHtml}</div>`
-    );
+    // Inject rendered React app into <div id="root"></div> reliably
+    if (pageHtml.includes('<div id="root"></div>')) {
+      pageHtml = pageHtml.replace(
+        '<div id="root"></div>',
+        `<div id="root">\n${appHtml}\n</div>`
+      );
+    } else {
+      pageHtml = pageHtml.replace(
+        /<div id="root">[\s\S]*?<\/body>/,
+        `<div id="root">\n${appHtml}\n</div>\n  </body>`
+      );
+    }
+
+    // Format HTML to produce clean, beautifully indented, multi-line source code
+    const formattedHtml = formatHtml(pageHtml);
 
     // 4. Save to dist directory structure
     if (url === '/') {
-      fs.writeFileSync(path.resolve(distDir, 'index.html'), pageHtml, 'utf-8');
+      fs.writeFileSync(path.resolve(distDir, 'index.html'), formattedHtml, 'utf-8');
     } else {
       const pageDir = path.resolve(distDir, url.slice(1));
       fs.mkdirSync(pageDir, { recursive: true });
-      fs.writeFileSync(path.resolve(pageDir, 'index.html'), pageHtml, 'utf-8');
+      fs.writeFileSync(path.resolve(pageDir, 'index.html'), formattedHtml, 'utf-8');
 
       // Also write direct .html file for hosts that resolve /blogs/best-suvs.html directly
-      fs.writeFileSync(`${pageDir}.html`, pageHtml, 'utf-8');
+      fs.writeFileSync(`${pageDir}.html`, formattedHtml, 'utf-8');
     }
 
     successCount++;
-    console.log(`  ✓ Pre-rendered: ${url} (length: ${pageHtml.length} chars)`);
+    console.log(`  ✓ Pre-rendered: ${url} (${formattedHtml.split('\n').length} lines, ${formattedHtml.length} chars)`);
   }
 
-  console.log(`✨ Successfully pre-rendered ${successCount} pages with static HTML and SEO metadata!`);
+  console.log(`✨ Successfully pre-rendered ${successCount} pages with human-readable indented HTML!`);
 }
 
 prerender().catch((err) => {

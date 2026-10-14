@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer as createViteServer } from 'vite';
 import { SEO_DATA } from './src/data/seoData.js';
 import { BLOGS } from './src/data/blogsData.js';
+import { formatHtml } from './src/utils/formatHtml.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -219,9 +220,14 @@ async function startServer() {
         .replace(/<script type="application\/ld\+json".*?<\/script>\n?/gis, '');
 
       pageHtml = pageHtml.replace('</head>', `${seoTags}\n  </head>`);
-      pageHtml = pageHtml.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+      if (pageHtml.includes('<div id="root"></div>')) {
+        pageHtml = pageHtml.replace('<div id="root"></div>', `<div id="root">\n${appHtml}\n</div>`);
+      } else {
+        pageHtml = pageHtml.replace(/<div id="root">[\s\S]*?<\/body>/, `<div id="root">\n${appHtml}\n</div>\n  </body>`);
+      }
 
-      res.status(200).set({ 'Content-Type': 'text/html' }).send(pageHtml);
+      const readableHtml = formatHtml(pageHtml);
+      res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).send(readableHtml);
     } catch (e: any) {
       if (!isProd && vite) {
         vite.ssrFixStacktrace(e);
