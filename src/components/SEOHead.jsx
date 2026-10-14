@@ -43,20 +43,28 @@ export default function SEOHead() {
     }
     canonicalTag.setAttribute('href', canonicalUrl);
 
-    // 5. OpenGraph tags
+    // 5. Image selection
     const isBlog = pathname.startsWith('/blogs/') && pathname !== '/blogs';
+    const blog = isBlog ? BLOGS.find((b) => `/blogs/${b.slug}` === pathname) : null;
+    const ogImage = blog
+      ? blog.image
+      : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80';
+
+    // 6. OpenGraph tags
     setMetaTag('property', 'og:title', seo.title);
     setMetaTag('property', 'og:description', seo.description);
     setMetaTag('property', 'og:type', isBlog ? 'article' : 'website');
     setMetaTag('property', 'og:url', canonicalUrl);
     setMetaTag('property', 'og:site_name', 'SUVHUB');
+    setMetaTag('property', 'og:image', ogImage);
 
-    // 6. Twitter Card tags
+    // 7. Twitter Card tags
     setMetaTag('name', 'twitter:card', 'summary_large_image');
     setMetaTag('name', 'twitter:title', seo.title);
     setMetaTag('name', 'twitter:description', seo.description);
+    setMetaTag('name', 'twitter:image', ogImage);
 
-    // 7. Schema.org JSON-LD Structured Data
+    // 8. Schema.org JSON-LD Structured Data
     let scriptTag = document.getElementById('suvhub-jsonld');
     if (!scriptTag) {
       scriptTag = document.createElement('script');
@@ -65,9 +73,10 @@ export default function SEOHead() {
       document.head.appendChild(scriptTag);
     }
 
-    let structuredData;
+    const schemas = [];
+
     if (pathname === '/') {
-      structuredData = {
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'SUVHUB',
@@ -86,24 +95,24 @@ export default function SEOHead() {
           target: `${window.location.origin}/blogs?q={search_term_string}`,
           'query-input': 'required name=search_term_string'
         }
-      };
-    } else if (isBlog) {
-      const blog = BLOGS.find((b) => `/blogs/${b.slug}` === pathname);
-      structuredData = {
+      });
+    } else if (isBlog && blog) {
+      // BlogPosting Schema
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         mainEntityOfPage: {
           '@type': 'WebPage',
           '@id': canonicalUrl
         },
-        headline: blog ? blog.title : seo.title,
-        description: blog ? blog.excerpt : seo.description,
-        image: [blog ? blog.image : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=75'],
+        headline: blog.title,
+        description: blog.excerpt,
+        image: [blog.image],
         datePublished: '2026-10-15T00:00:00+05:30',
         dateModified: '2026-10-15T00:00:00+05:30',
         author: {
           '@type': 'Organization',
-          name: blog ? blog.author : 'SUVHUB Editorial Team',
+          name: blog.author || 'SUVHUB Editorial Team',
           url: `${window.location.origin}/about`
         },
         publisher: {
@@ -115,9 +124,35 @@ export default function SEOHead() {
           }
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`
-      };
+      });
+
+      // BreadcrumbList Schema
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${window.location.origin}/`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'SUV Blogs',
+            item: `${window.location.origin}/blogs`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: blog.title,
+            item: canonicalUrl
+          }
+        ]
+      });
     } else {
-      structuredData = {
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         name: seo.title,
@@ -128,10 +163,10 @@ export default function SEOHead() {
           name: 'SUVHUB'
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`
-      };
+      });
     }
 
-    scriptTag.textContent = JSON.stringify(structuredData);
+    scriptTag.textContent = JSON.stringify(schemas.length === 1 ? schemas[0] : schemas);
   }, [pathname]);
 
   return null;

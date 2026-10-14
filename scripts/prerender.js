@@ -44,14 +44,18 @@ async function prerender() {
     const canonicalUrl = `${BASE_URL}${url === '/' ? '/' : url}`;
     const isBlog = url.startsWith('/blogs/') && url !== '/blogs';
     const blog = isBlog ? BLOGS.find((b) => `/blogs/${b.slug}` === url) : null;
+    const ogImage = blog
+      ? blog.image
+      : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80';
 
     // 1. Render React tree to HTML
     const appHtml = render(url);
 
-    // 2. Build structured data JSON-LD
-    let structuredData;
+    // 2. Build structured data JSON-LD (WebSite, BlogPosting, BreadcrumbList)
+    const schemas = [];
+
     if (url === '/') {
-      structuredData = {
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'SUVHUB',
@@ -70,9 +74,10 @@ async function prerender() {
           target: `${BASE_URL}/blogs?q={search_term_string}`,
           'query-input': 'required name=search_term_string'
         }
-      };
+      });
     } else if (isBlog && blog) {
-      structuredData = {
+      // BlogPosting Schema
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         mainEntityOfPage: {
@@ -98,9 +103,35 @@ async function prerender() {
           }
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`
-      };
+      });
+
+      // BreadcrumbList Schema
+      schemas.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${BASE_URL}/`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'SUV Blogs',
+            item: `${BASE_URL}/blogs`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: blog.title,
+            item: canonicalUrl
+          }
+        ]
+      });
     } else {
-      structuredData = {
+      schemas.push({
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         name: seo.title,
@@ -111,7 +142,7 @@ async function prerender() {
           name: 'SUVHUB'
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`
-      };
+      });
     }
 
     // 3. Inject meta tags and prerendered content into template
@@ -135,6 +166,8 @@ async function prerender() {
 
     // Prepare SEO tags to inject into <head>
     const ogType = isBlog ? 'article' : 'website';
+    const jsonLdContent = JSON.stringify(schemas.length === 1 ? schemas[0] : schemas, null, 2);
+
     const seoTags = [
       `    <link rel="canonical" href="${canonicalUrl}" />`,
       `    <meta name="keywords" content="${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}" />`,
@@ -143,10 +176,12 @@ async function prerender() {
       `    <meta property="og:type" content="${ogType}" />`,
       `    <meta property="og:url" content="${canonicalUrl}" />`,
       `    <meta property="og:site_name" content="SUVHUB" />`,
+      `    <meta property="og:image" content="${ogImage}" />`,
       `    <meta name="twitter:card" content="summary_large_image" />`,
       `    <meta name="twitter:title" content="${seo.title}" />`,
       `    <meta name="twitter:description" content="${seo.description}" />`,
-      `    <script type="application/ld+json" id="suvhub-jsonld">\n${JSON.stringify(structuredData, null, 2)}\n    </script>`
+      `    <meta name="twitter:image" content="${ogImage}" />`,
+      `    <script type="application/ld+json" id="suvhub-jsonld">\n${jsonLdContent}\n    </script>`
     ].join('\n');
 
     // Remove old OG/Twitter tags if present in template to avoid duplicates
@@ -156,9 +191,11 @@ async function prerender() {
       .replace(/<meta property="og:type" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta property="og:url" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta property="og:site_name" content=".*?"\s*\/?>\n?/gi, '')
+      .replace(/<meta property="og:image" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta name="twitter:card" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta name="twitter:title" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta name="twitter:description" content=".*?"\s*\/?>\n?/gi, '')
+      .replace(/<meta name="twitter:image" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<link rel="canonical" href=".*?"\s*\/?>\n?/gi, '')
       .replace(/<meta name="keywords" content=".*?"\s*\/?>\n?/gi, '')
       .replace(/<script type="application\/ld\+json".*?<\/script>\n?/gis, '');
