@@ -44,9 +44,8 @@ async function prerender() {
     const canonicalUrl = `${BASE_URL}${url === '/' ? '/' : url}`;
     const isBlog = url.startsWith('/blogs/') && url !== '/blogs';
     const blog = isBlog ? BLOGS.find((b) => `/blogs/${b.slug}` === url) : null;
-    const ogImage = blog
-      ? blog.image
-      : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80';
+    const rawImage = blog ? blog.image : '/images/mahindra-xuv700.webp';
+    const ogImage = rawImage.startsWith('http') ? rawImage : `${BASE_URL}${rawImage}`;
 
     // 1. Render React tree to HTML
     const appHtml = render(url);
@@ -66,7 +65,7 @@ async function prerender() {
           name: 'SUVHUB',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=75'
+            url: `${BASE_URL}/images/mahindra-xuv700.webp`
           }
         },
         potentialAction: {
@@ -86,7 +85,7 @@ async function prerender() {
         },
         headline: blog.title,
         description: blog.excerpt,
-        image: [blog.image],
+        image: [ogImage],
         datePublished: '2026-10-15T00:00:00+05:30',
         dateModified: '2026-10-15T00:00:00+05:30',
         author: {
@@ -99,7 +98,7 @@ async function prerender() {
           name: 'SUVHUB',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=75'
+            url: `${BASE_URL}/images/mahindra-xuv700.webp`
           }
         },
         keywords: `${seo.mainKeyword}, ${seo.relatedKeywords.join(', ')}`

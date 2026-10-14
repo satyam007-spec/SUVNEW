@@ -36,6 +36,7 @@ export default function ImageWithFallback({
           height={height}
           loading={loading}
           decoding="async"
+          referrerPolicy="no-referrer"
           onError={() => setHasError(true)}
           className="w-full h-full object-cover transition-transform duration-500 ease-out"
         />

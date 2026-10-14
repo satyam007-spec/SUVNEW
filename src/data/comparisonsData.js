@@ -9,14 +9,14 @@ export const HEAD_TO_HEAD_COMPARISONS = [
     car1: {
       id: "mahindra-xuv700",
       name: "Mahindra XUV700",
-      image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+      image: "/images/mahindra-xuv700.webp",
       segment: "Mid-Size 5/7 Seater",
       layout: "5 or 7 Seater options"
     },
     car2: {
       id: "tata-harrier",
       name: "Tata Harrier",
-      image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80",
+      image: "/images/tata-harrier.webp",
       segment: "Mid-Size 5 Seater",
       layout: "Dedicated 5 Seater"
     },
@@ -73,14 +73,14 @@ export const HEAD_TO_HEAD_COMPARISONS = [
     car1: {
       id: "hyundai-creta",
       name: "Hyundai Creta",
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+      image: "/images/hyundai-creta.webp",
       segment: "Compact 5-Seater",
       layout: "Comfort-Oriented 5 Seater"
     },
     car2: {
       id: "kia-seltos",
       name: "Kia Seltos",
-      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
+      image: "/images/kia-seltos.webp",
       segment: "Compact 5-Seater",
       layout: "Sport-Oriented 5 Seater"
     },
@@ -137,14 +137,14 @@ export const HEAD_TO_HEAD_COMPARISONS = [
     car1: {
       id: "mahindra-scorpio-n",
       name: "Mahindra Scorpio-N",
-      image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80",
+      image: "/images/mahindra-scorpio-n.webp",
       segment: "D-Segment Ladder Frame",
       layout: "6 or 7 Seater options"
     },
     car2: {
       id: "toyota-fortuner",
       name: "Toyota Fortuner",
-      image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80",
+      image: "/images/toyota-fortuner.webp",
       segment: "Full-Size Ladder Frame",
       layout: "7 Seater"
     },

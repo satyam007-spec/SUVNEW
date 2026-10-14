@@ -24,6 +24,8 @@ for (const blog of BLOGS) {
     'GSC tag 1': content.includes('rjgpW7Ucd8gKi2nq3K3sSmUNyxxVzHWFIggZbf7BGg8'),
     'GSC tag 2': content.includes('rFsozkGyIzrV21L2CEh1L0w86CRXI7VVhA6PF3I-RpE'),
     'Main Keyword': content.includes(blog.mainKeyword),
+    'Accurate Image File Exists': fs.existsSync(`public${blog.image}`),
+    'Image in Static HTML': content.includes(blog.image),
     'File length > 40k': content.length > 40000
   };
 

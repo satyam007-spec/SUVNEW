@@ -161,8 +161,8 @@ export default function HomePage() {
             <div className="lg:col-span-5 relative">
               <div className="relative rounded-2xl overflow-hidden border border-[#2A2F35] shadow-2xl bg-[#15181C] group">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=75"
-                  alt="Modern premium mid-size SUV driving on scenic mountain highway"
+                  src="/images/mahindra-xuv700.webp"
+                  alt="Mahindra XUV700 flagship mid-size SUV in India with signature C-shaped LED DRLs and modern road presence"
                   aspectRatio="aspect-[4/3]"
                   className="group-hover:scale-105 transition-transform duration-700"
                   maxWidth={800}

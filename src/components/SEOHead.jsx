@@ -46,9 +46,8 @@ export default function SEOHead() {
     // 5. Image selection
     const isBlog = pathname.startsWith('/blogs/') && pathname !== '/blogs';
     const blog = isBlog ? BLOGS.find((b) => `/blogs/${b.slug}` === pathname) : null;
-    const ogImage = blog
-      ? blog.image
-      : 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80';
+    const rawImage = blog ? blog.image : '/images/mahindra-xuv700.webp';
+    const ogImage = rawImage.startsWith('http') ? rawImage : `${window.location.origin}${rawImage}`;
 
     // 6. OpenGraph tags
     setMetaTag('property', 'og:title', seo.title);
