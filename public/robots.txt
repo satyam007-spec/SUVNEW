@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://suvhub.vercel.app/sitemap.xml

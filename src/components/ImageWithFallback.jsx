@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-// Helper to ensure small payload size for Unsplash images
-function getOptimizedImageUrl(url, maxWidth = 750) {
+// Helper to ensure small payload size and responsive dimensions for images
+function getOptimizedImageUrl(url, maxWidth = 800) {
   if (!url || typeof url !== 'string') return url;
   if (url.includes('images.unsplash.com')) {
     // Replace high-res dimensions with lightweight responsive dimensions and compressed quality
@@ -17,10 +17,11 @@ export default function ImageWithFallback({
   className = '',
   aspectRatio = 'aspect-[16/10]',
   loading = 'lazy',
-  maxWidth = 750
+  maxWidth = 800,
+  width = 800,
+  height = 500
 }) {
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const optimizedSrc = getOptimizedImageUrl(src, maxWidth);
   const validAltText = alt && alt.trim().length > 0 ? alt : 'SUVHUB automotive photograph';
@@ -31,13 +32,12 @@ export default function ImageWithFallback({
         <img
           src={optimizedSrc}
           alt={validAltText}
+          width={width}
+          height={height}
           loading={loading}
           decoding="async"
-          onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          className="w-full h-full object-cover transition-transform duration-500 ease-out"
         />
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#15181C] to-[#1B1F24] p-4 text-center">
@@ -46,6 +46,7 @@ export default function ImageWithFallback({
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -58,9 +59,6 @@ export default function ImageWithFallback({
             {validAltText}
           </span>
         </div>
-      )}
-      {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-[#15181C] animate-pulse" />
       )}
     </div>
   );
